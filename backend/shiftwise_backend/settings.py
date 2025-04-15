@@ -22,7 +22,9 @@ DEBUG = os.getenv("DEBUG", "False") == "True"
 # Allowed Hosts - Ensure it's lowercase and includes the Render domain
 ALLOWED_HOSTS = [
     "127.0.0.1",
-    "localhost"
+    "localhost",
+    "shiftwise-2.onrender.com",
+    "shiftwise-1.onrender.com"
 ]
 # ✅ Allow custom domains via environment variables
 extra_hosts = os.getenv("ALLOWED_HOSTS", "").split(",")
@@ -144,14 +146,17 @@ AUTH_USER_MODEL = 'authentication.User'
 
 # CORS Settings
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # Allow frontend (Vite) to communicate with Django backend
-    "http://localhost:3000",   # Adjust based on your frontend URL
+    "http://localhost:5173",
+    "http://localhost:3000",
+    "https://shiftwise-1.onrender.com"
 ]
 CORS_ALLOW_CREDENTIALS = True  # Allow cookies and authentication
 
 # Deployment Fixes
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:3000", 
+    "http://localhost:3000",
+    "https://shiftwise-1.onrender.com",
+    "https://shiftwise-2.onrender.com"
 ]
 CORS_ALLOW_HEADERS = list(default_headers) + [
     'authorization',

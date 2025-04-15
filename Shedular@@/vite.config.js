@@ -12,7 +12,10 @@ export default defineConfig(({ mode }) => {
       host: "0.0.0.0", // Ensure it binds to all interfaces
     },
     preview: {
-      allowedHosts: ['www.theshiftwise.com'],
+      allowedHosts: [
+        'shiftwise-1.onrender.com',
+        'www.theshiftwise.com'
+      ],
     },
     build: {
       rollupOptions: {

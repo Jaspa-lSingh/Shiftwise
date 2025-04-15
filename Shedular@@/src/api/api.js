@@ -3,7 +3,7 @@ import { getAdminAuthHeader } from "../helpers/adminAuth";
 import { getEmployeeAuthHeader } from "../helpers/employeeAuth";
 
 // Load backend URL from environment variables
-const API_BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:8000";
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL || "https://shiftwise-2.onrender.com";
 
 console.log("API_BASE_URL:", API_BASE_URL); 
 
