@@ -7,9 +7,7 @@ services:
       cd backend
       pip install -r requirements.txt
       python manage.py collectstatic --noinput
-    startCommand: |
-      cd backend
-      gunicorn --chdir backend shiftwise_backend.wsgi:application --log-file -
+    startCommand: cd backend && gunicorn shiftwise_backend.wsgi:application --bind 0.0.0.0:$PORT
     envVars:
       - key: PYTHON_VERSION
         value: 3.9.0
@@ -23,6 +21,8 @@ services:
         fromDatabase:
           name: shiftwise-db-test
           property: connectionString
+      - key: PYTHONPATH
+        value: /opt/render/project/src/backend
     healthCheckPath: /api/health/
     plan: free
 
