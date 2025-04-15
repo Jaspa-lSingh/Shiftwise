@@ -6,6 +6,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
 
   return {
+    base: '/Shiftwise/', // Add base URL for GitHub Pages
     plugins: [react()],
     server: {
       port: 3000,  // Fixed port for Render
