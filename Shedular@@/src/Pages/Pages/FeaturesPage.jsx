@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, useAnimation, useScroll, useTransform } from 'framer-motion';
-import { HiCalendar, HiClock, HiUserGroup, HiCurrencyDollar, HiChartBar, HiShieldCheck } from 'react-icons/hi';
+import { HiCalendar, HiClock, HiUserGroup, HiCurrencyDollar, HiChartBar, HiShieldCheck, HiCheck } from 'react-icons/hi';
 
 const Features = () => {
   const controls = useAnimation();
   const { scrollY } = useScroll();
+  const [isAnnual, setIsAnnual] = useState(false);
 
   // Parallax effects
   const y1 = useTransform(scrollY, [0, 300], [0, -50]);
@@ -96,6 +97,56 @@ const Features = () => {
       rating: 5,
       image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
     }
+  ];
+
+  const subscriptionPlans = [
+    {
+      name: "Starter",
+      description: "Perfect for small businesses just getting started",
+      monthlyPrice: 29,
+      yearlyPrice: 290,
+      features: [
+        "Up to 10 employees",
+        "Basic scheduling",
+        "Time tracking",
+        "Mobile app access",
+        "Email support",
+      ],
+      highlighted: false,
+    },
+    {
+      name: "Professional",
+      description: "Ideal for growing businesses with advanced needs",
+      monthlyPrice: 79,
+      yearlyPrice: 790,
+      features: [
+        "Up to 50 employees",
+        "Advanced scheduling",
+        "Time tracking & attendance",
+        "Payroll integration",
+        "Mobile app access",
+        "Priority support",
+        "Advanced reporting",
+      ],
+      highlighted: true,
+    },
+    {
+      name: "Enterprise",
+      description: "Custom solutions for large organizations",
+      monthlyPrice: 199,
+      yearlyPrice: 1990,
+      features: [
+        "Unlimited employees",
+        "Custom scheduling rules",
+        "Advanced integrations",
+        "Dedicated account manager",
+        "24/7 priority support",
+        "Custom reporting",
+        "API access",
+        "SSO & advanced security",
+      ],
+      highlighted: false,
+    },
   ];
 
   useEffect(() => {
@@ -295,6 +346,142 @@ const Features = () => {
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* After Features Grid section and before Testimonials section */}
+      {/* Pricing Section */}
+      <section className="py-20 px-4 md:px-8 bg-white/90 relative overflow-hidden">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.1 }}
+          transition={{ duration: 1 }}
+          className="absolute inset-0"
+          style={{
+            backgroundImage: "radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.1) 1px, transparent 1px)",
+            backgroundSize: "24px 24px"
+          }}
+        />
+        <div className="container mx-auto max-w-7xl relative">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Simple, <span className="text-blue-600">Transparent Pricing</span>
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Choose the perfect plan for your business
+            </p>
+
+            {/* Billing Toggle */}
+            <div className="flex items-center justify-center mt-8 space-x-4">
+              <span className={`text-lg ${!isAnnual ? 'text-blue-600 font-semibold' : 'text-gray-600'}`}>
+                Monthly
+              </span>
+              <button
+                onClick={() => setIsAnnual(!isAnnual)}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
+                  isAnnual ? 'bg-blue-600' : 'bg-gray-200'
+                }`}
+              >
+                <span
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                    isAnnual ? 'translate-x-6' : 'translate-x-1'
+                  }`}
+                />
+              </button>
+              <span className={`text-lg ${isAnnual ? 'text-blue-600 font-semibold' : 'text-gray-600'}`}>
+                Annually <span className="text-green-500 text-sm">(Save 20%)</span>
+              </span>
+            </div>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {subscriptionPlans.map((plan, index) => (
+              <motion.div
+                key={plan.name}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                whileHover={{ y: -5 }}
+                className={`relative bg-white rounded-2xl p-8 ${
+                  plan.highlighted
+                    ? 'border-2 border-blue-500 shadow-xl'
+                    : 'border border-gray-200 shadow-lg'
+                }`}
+              >
+                {plan.highlighted && (
+                  <div className="absolute top-0 right-0 bg-blue-500 text-white px-4 py-1 rounded-bl-lg rounded-tr-lg text-sm font-medium">
+                    Most Popular
+                  </div>
+                )}
+
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
+                <p className="text-gray-600 mb-6">{plan.description}</p>
+
+                <div className="mb-6">
+                  <span className="text-4xl font-bold text-gray-900">
+                    ${isAnnual ? Math.round(plan.yearlyPrice / 12) : plan.monthlyPrice}
+                  </span>
+                  <span className="text-gray-600">/month</span>
+                  {isAnnual && (
+                    <div className="text-green-500 text-sm mt-1">
+                      Billed annually (${plan.yearlyPrice}/year)
+                    </div>
+                  )}
+                </div>
+
+                <ul className="space-y-4 mb-8">
+                  {plan.features.map((feature) => (
+                    <li key={feature} className="flex items-center text-gray-600">
+                      <HiCheck className="text-green-500 mr-2 flex-shrink-0" />
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className={`w-full py-3 px-6 rounded-lg font-medium transition-colors ${
+                    plan.highlighted
+                      ? 'bg-blue-600 text-white hover:bg-blue-700'
+                      : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+                  }`}
+                >
+                  Get Started
+                </motion.button>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Enterprise Call-to-Action */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+            className="mt-16 text-center bg-gray-50 rounded-2xl p-8 border border-gray-200"
+          >
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">
+              Need a Custom Solution?
+            </h3>
+            <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+              We offer tailored solutions for large enterprises with specific requirements.
+              Get in touch with our sales team to discuss your needs.
+            </p>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-gray-900 text-white px-8 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors"
+            >
+              Contact Sales
+            </motion.button>
+          </motion.div>
         </div>
       </section>
 
