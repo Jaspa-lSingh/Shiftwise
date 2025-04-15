@@ -6,23 +6,27 @@ services:
     buildCommand: |
       cd backend
       pip install -r requirements.txt
+      python manage.py migrate --noinput
       python manage.py collectstatic --noinput
-    startCommand: cd backend && gunicorn shiftwise_backend.wsgi:application --bind 0.0.0.0:$PORT
+    startCommand: |
+      cd backend
+      export PYTHONPATH=$PYTHONPATH:/opt/render/project/src/backend
+      gunicorn --chdir /opt/render/project/src/backend shiftwise_backend.wsgi:application --bind 0.0.0.0:$PORT
     envVars:
       - key: PYTHON_VERSION
         value: 3.9.0
       - key: SECRET_KEY
         generateValue: true
       - key: DEBUG
-        value: True
+        value: False
       - key: ALLOWED_HOSTS
         value: shiftwise-2.onrender.com,shiftwise-1.onrender.com
       - key: DATABASE_URL
         fromDatabase:
           name: shiftwise-db-test
           property: connectionString
-      - key: PYTHONPATH
-        value: /opt/render/project/src/backend
+      - key: DJANGO_SETTINGS_MODULE
+        value: shiftwise_backend.settings
     healthCheckPath: /api/health/
     plan: free
 
@@ -31,11 +35,11 @@ services:
     name: shiftwise-1
     env: node
     buildCommand: |
-      cd Shedular@@
+      cd frontend
       npm install
       npm run build
     startCommand: |
-      cd Shedular@@
+      cd frontend
       npm start
     envVars:
       - key: VITE_BACKEND_URL

@@ -13,8 +13,11 @@ from django.core.wsgi import get_wsgi_application
 
 # Add the project directory to the Python path
 current_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+project_root = os.path.dirname(current_dir)
+
+# Add both the backend directory and the project root to the Python path
 sys.path.insert(0, current_dir)
-sys.path.insert(0, os.path.join(current_dir, 'shiftwise_backend'))
+sys.path.insert(0, project_root)
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'shiftwise_backend.settings')
 
