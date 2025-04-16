@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { motion, useAnimation, useScroll, useTransform } from 'framer-motion';
 import { HiCalendar, HiClock, HiUserGroup, HiCurrencyDollar, HiChartBar, HiShieldCheck } from 'react-icons/hi';
 
-const Features = () => {
+const FeaturesPage = () => {
   const controls = useAnimation();
   const { scrollY } = useScroll();
 
@@ -416,4 +416,4 @@ const Features = () => {
   );
 };
 
-export default Features; 
+export default FeaturesPage; 
